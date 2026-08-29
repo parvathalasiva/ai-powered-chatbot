@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Powered Chatbot</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="chat-container">
+
+        <div class="chat-header">
+            <div class="bot-icon">🤖</div>
+
+            <div>
+                <h1>AI Assistant</h1>
+                <p>Online • Powered by AI</p>
+            </div>
+        </div>
+
+
+        <div id="chat-box" class="chat-box">
+
+            <div class="message bot-message">
+                <div class="avatar">🤖</div>
+
+                <div class="message-content">
+                    <p>
+                        Hello! 👋<br>
+                        I'm your AI assistant. How can I help you today?
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="typing" id="typing">
+            AI is typing...
+        </div>
+
+
+        <div class="input-area">
+
+        <input
+    type="text"
+    id="message-input"
+    placeholder="Type your message..."
+>
+
+<button id="send-button">
+    Send
+</button>
+
+<div id="typing">
+    AI is typing...
+</div>
+
+<div id="chat-box"></div>
+
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
