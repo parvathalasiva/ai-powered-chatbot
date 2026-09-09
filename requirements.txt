@@ -1,0 +1,8 @@
+Flask
+requests
+python-dotenv
+Werkzeug
+gunicorn
+pypdf
+python-docx
+duckduckgo-search

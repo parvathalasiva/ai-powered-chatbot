@@ -1,71 +1,508 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AI Powered Chatbot</title>
+    <meta
+        name="description"
+        content="AI Assistant - Coding, Python, Machine Learning, Projects and Interview Preparation"
+    >
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>AI Assistant</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
 </head>
 
 <body>
 
-    <div class="chat-container">
+<div class="app" id="app">
 
-        <div class="chat-header">
-            <div class="bot-icon">🤖</div>
+    <!-- ================= SIDEBAR ================= -->
 
-            <div>
-                <h1>AI Assistant</h1>
-                <p>Online • Powered by AI</p>
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="brand">
+                <div class="brand-icon">🤖</div>
+
+                <div class="brand-info">
+                    <h1>AI Assistant</h1>
+
+                    <div class="online-status">
+                        <span
+                            class="status-dot"
+                            id="sidebarStatusDot"
+                        ></span>
+
+                        <span id="connectionText">
+                            Checking...
+                        </span>
+                    </div>
+                </div>
             </div>
-        </div>
 
+            <button
+                id="newChatButton"
+                class="new-chat-btn"
+                type="button"
+            >
+                <span class="button-icon">＋</span>
+                <span>New Chat</span>
+            </button>
 
-        <div id="chat-box" class="chat-box">
+            <div class="sidebar-section">
 
-            <div class="message bot-message">
-                <div class="avatar">🤖</div>
+                <div class="section-title">
+                    FEATURES
+                </div>
 
-                <div class="message-content">
-                    <p>
-                        Hello! 👋<br>
-                        I'm your AI assistant. How can I help you today?
-                    </p>
+                <div class="feature-nav">
+
+                    <button
+                        class="feature-item"
+                        data-topic="coding"
+                        data-prompt="Help me with a programming problem. Explain the solution clearly and provide working code."
+                        type="button"
+                    >
+                        <span class="feature-icon">💻</span>
+                        <span>Coding Help</span>
+                    </button>
+
+                    <button
+                        class="feature-item"
+                        data-topic="ideas"
+                        data-prompt="Give me useful ideas for learning programming, improving my technical skills, and building my career."
+                        type="button"
+                    >
+                        <span class="feature-icon">💡</span>
+                        <span>Ideas &amp; Learning</span>
+                    </button>
+
+                    <button
+                        class="feature-item active"
+                        data-topic="general"
+                        data-prompt="Let's have a general conversation."
+                        type="button"
+                    >
+                        <span class="feature-icon">💬</span>
+                        <span>General Chat</span>
+                    </button>
+
+                    <button
+                        class="feature-item"
+                        data-topic="python"
+                        data-prompt="Teach me Python with practical examples. Explain concepts clearly for a beginner."
+                        type="button"
+                    >
+                        <span class="feature-icon">🐍</span>
+                        <span>Python</span>
+                    </button>
+
+                    <button
+                        class="feature-item"
+                        data-topic="interview"
+                        data-prompt="Help me prepare for a software engineering technical interview. Give questions with clear answers."
+                        type="button"
+                    >
+                        <span class="feature-icon">💼</span>
+                        <span>Interview Prep</span>
+                    </button>
+
+                    <button
+                        class="feature-item"
+                        data-topic="projects"
+                        data-prompt="Suggest practical software projects that I can build for my portfolio. Include technologies and implementation steps."
+                        type="button"
+                    >
+                        <span class="feature-icon">🚀</span>
+                        <span>Projects</span>
+                    </button>
+
+                    <button
+                        class="feature-item"
+                        data-topic="ml"
+                        data-prompt="Explain machine learning in simple terms with practical examples and important concepts."
+                        type="button"
+                    >
+                        <span class="feature-icon">🧠</span>
+                        <span>Machine Learning</span>
+                    </button>
+
                 </div>
             </div>
 
         </div>
 
+        <div class="sidebar-bottom">
 
-        <div class="typing" id="typing">
-            AI is typing...
+            <button
+                id="themeButton"
+                class="sidebar-action"
+                type="button"
+            >
+                <span
+                    class="action-icon"
+                    id="themeIcon"
+                >
+                    🌙
+                </span>
+
+                <span id="themeText">
+                    Dark Mode
+                </span>
+            </button>
+
+            <button
+                id="clearButton"
+                class="sidebar-action"
+                type="button"
+            >
+                <span class="action-icon">🗑️</span>
+                <span>Clear Chat</span>
+            </button>
+
         </div>
 
+    </aside>
 
-        <div class="input-area">
+    <!-- MOBILE OVERLAY -->
 
-        <input
-    type="text"
-    id="message-input"
-    placeholder="Type your message..."
->
+    <div
+        id="sidebarOverlay"
+        class="sidebar-overlay"
+    ></div>
 
-<button id="send-button">
-    Send
-</button>
+    <!-- ================= MAIN ================= -->
 
-<div id="typing">
-    AI is typing...
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    id="mobileMenuButton"
+                    class="mobile-menu-btn"
+                    type="button"
+                    aria-label="Open menu"
+                >
+                    ☰
+                </button>
+
+                <div class="header-icon">
+                    🤖
+                </div>
+
+                <div class="header-info">
+
+                    <h2>
+                        AI Assistant
+                    </h2>
+
+                    <div class="ready-status">
+
+                        <span
+                            class="status-dot"
+                            id="headerStatusDot"
+                        ></span>
+
+                        <span id="readyText">
+                            Ready to help
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                id="aboutButton"
+                class="about-button"
+                type="button"
+                aria-label="About AI Assistant"
+            >
+                ℹ️
+            </button>
+
+        </header>
+
+        <!-- ================= CHAT ================= -->
+
+        <section
+            id="chatArea"
+            class="chat-area"
+        >
+
+            <div
+                id="welcomeScreen"
+                class="welcome-screen"
+            >
+
+                <div class="welcome-icon">
+                    🤖
+                </div>
+
+                <h2>
+                    How can I help you?
+                </h2>
+
+                <p>
+                    Ask anything, generate code, learn programming,
+                    prepare for interviews, or build projects.
+                </p>
+
+                <div class="quick-actions">
+
+                    <button
+                        class="quick-btn"
+                        data-message="Explain Python programming for a beginner with simple examples"
+                        type="button"
+                    >
+                        <span>🐍</span>
+                        <span>Learn Python</span>
+                    </button>
+
+                    <button
+                        class="quick-btn"
+                        data-message="Give me a Python project idea with complete implementation steps and code"
+                        type="button"
+                    >
+                        <span>🚀</span>
+                        <span>Python Project</span>
+                    </button>
+
+                    <button
+                        class="quick-btn"
+                        data-message="Give me common software engineering interview questions and answers"
+                        type="button"
+                    >
+                        <span>💼</span>
+                        <span>Interview Prep</span>
+                    </button>
+
+                    <button
+                        class="quick-btn"
+                        data-message="Explain machine learning in simple terms with practical examples"
+                        type="button"
+                    >
+                        <span>🧠</span>
+                        <span>Machine Learning</span>
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div
+                id="messagesContainer"
+                class="messages-container"
+            ></div>
+
+        </section>
+
+        <!-- ================= INPUT ================= -->
+
+        <div class="input-section">
+
+            <div class="input-wrapper">
+
+                <div
+                    id="filePreview"
+                    class="file-preview"
+                    style="display:none;"
+                ></div>
+
+                <div class="message-box">
+
+                    <div class="attachment-container">
+
+                        <button
+                            id="attachmentButton"
+                            class="input-btn"
+                            type="button"
+                            title="Attach file"
+                            aria-label="Attach file"
+                        >
+                            📎
+                        </button>
+
+                        <div
+                            id="attachmentMenu"
+                            class="attachment-menu"
+                        >
+
+                            <button
+                                id="imageUploadOption"
+                                class="attachment-option"
+                                type="button"
+                            >
+                                <span>🖼️</span>
+                                <span>Upload Image</span>
+                            </button>
+
+                            <button
+                                id="documentUploadOption"
+                                class="attachment-option"
+                                type="button"
+                            >
+                                <span>📄</span>
+                                <span>Upload Document</span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <input
+                        type="file"
+                        id="imageInput"
+                        accept="image/png,image/jpeg,image/jpg,image/webp"
+                        hidden
+                    >
+
+                    <input
+                        type="file"
+                        id="documentInput"
+                        accept=".pdf,.txt,.md,.csv,.json,.py,.js,.html,.css,.java,.c,.cpp,.h,.sql,.docx"
+                        hidden
+                    >
+
+                    <textarea
+                        id="messageInput"
+                        class="message-input"
+                        placeholder="Message AI Assistant..."
+                        rows="1"
+                        autocomplete="off"
+                        spellcheck="true"
+                        aria-label="Message AI Assistant"
+                    ></textarea>
+
+                    <div class="input-actions">
+
+                        <button
+                            id="micButton"
+                            class="input-btn"
+                            type="button"
+                            title="Voice input"
+                            aria-label="Voice input"
+                        >
+                            🎤
+                        </button>
+
+                        <button
+                            id="sendButton"
+                            class="send-btn"
+                            type="button"
+                            title="Send message"
+                            aria-label="Send message"
+                        >
+                            ➤
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="voiceStatus"
+                    class="voice-status"
+                >
+                    Click the microphone and speak your question
+                </div>
+
+                <div class="disclaimer">
+                    AI can make mistakes. Please verify important information.
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
 </div>
 
-<div id="chat-box"></div>
+<!-- ================= ABOUT MODAL ================= -->
 
+<div
+    id="aboutModal"
+    class="modal-overlay"
+    aria-hidden="true"
+>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="aboutTitle"
+    >
+
+        <button
+            id="closeAboutButton"
+            class="modal-close"
+            type="button"
+            aria-label="Close"
+        >
+            ×
+        </button>
+
+        <div class="modal-icon">
+            🤖
+        </div>
+
+        <h2 id="aboutTitle">
+            AI Assistant
+        </h2>
+
+        <p>
+            AI Assistant is a Flask-based chatbot powered by Ollama.
+            It supports programming, Python, machine learning,
+            projects, interview preparation, document analysis,
+            image analysis and general questions.
+        </p>
+
+        <div class="about-features">
+
+            <div class="about-feature">🐍 Python</div>
+            <div class="about-feature">💻 Coding</div>
+            <div class="about-feature">🚀 Projects</div>
+            <div class="about-feature">🧠 Machine Learning</div>
+            <div class="about-feature">💼 Interviews</div>
+            <div class="about-feature">🎤 Voice Input</div>
+            <div class="about-feature">📄 Documents</div>
+            <div class="about-feature">🖼️ Image Analysis</div>
+
+        </div>
+
+        <div class="version">
+            Version 2.0
+        </div>
+
+    </div>
+
+</div>
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
+></div>
+
+<script
+    src="{{ url_for('static', filename='script.js') }}"
+    defer
+></script>
 
 </body>
-
 </html>
